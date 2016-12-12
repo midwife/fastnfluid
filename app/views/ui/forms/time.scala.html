@@ -1,0 +1,6 @@
+@(field: Field, label: String = "", size: Integer, disabled: String = "")
+
+<div class="input-field col s@size">
+  <input @disabled placeholder="@label" value="@field.value" name="@field.name" id="@field.id" type="text">
+  <label for="@field.id">@label</label>
+</div>

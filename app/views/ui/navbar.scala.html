@@ -1,0 +1,25 @@
+@(user: String, lockScreen: Boolean, personIcon: String = "person", userId: Int = 0, accountId: Int = 0, societyId: Int = 0)
+<nav>
+  <div class="nav-wrapper">
+    <a href="#" class="brand-logo"><img src="@routes.Assets.at("images/favicon.png")" style="vertical-align: middle;"> Fast & Fluid</a>
+      <!--<a href="#" class="brand-logo" style="margin-left:-90px;"><i class="material-icons">local_shipping</i></a>-->
+    @if(lockScreen==false) {
+      <ul class="right xhide-on-med-and-down">
+        <li><a class="tooltipped" href="/"     data-position="bottom" data-delay="10" data-tooltip="@Messages("navbar.list_cellphones")"><i class="material-icons">phone_android</i></a></li>
+        <li><a class="tooltipped" href="/user/ui/@userId" data-position="bottom" data-delay="10" data-tooltip="@Messages("navbar.users")"><i class="material-icons">@if(personIcon.equals("super_user")) {supervisor_account} else { @if(personIcon.equals("root_user")) {verified_user} else {person}}</i></a></li>
+        @if(personIcon.equals("root_user")) {
+          <li><a class="tooltipped" href="/account/ui/@accountId" data-position="bottom" data-delay="10" data-tooltip="@Messages("navbar.account")"><i class="material-icons">account_balance_wallet</i></a></li>
+        }
+        @if(personIcon.equals("root_user")) {
+          <li><a class="tooltipped" href="#" data-position="bottom" data-delay="10" data-tooltip="@Messages("society")"><i class="material-icons">business</i></a></li>
+        }
+        @if(personIcon.equals("root_user") || personIcon.equals("super_user") ) {
+          <li><a class="tooltipped" href="#" data-position="bottom" data-delay="10" data-tooltip="@Messages("settings")"><i class="material-icons">settings</i></a></li>
+        }
+        <li><a href=""><i class="material-icons">refresh</i></a></li>
+        <li><a class="tooltipped" href="/logout" data-position="bottom" data-delay="10" data-tooltip="@Messages("navbar.logout")"><i class="material-icons">exit_to_app</i></a></li>
+        <li><a href="">@user @Messages("toast.isConnected")</a></li>
+      </ul>
+    }
+  </div>
+</nav>

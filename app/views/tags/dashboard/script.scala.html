@@ -1,0 +1,137 @@
+@(user: String)
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?AIzaSyAsAzOBFyF1-580nuCwp65ZVhRvLE-U_mU&libraries=geometry&callback=initMap"></script>
+
+<script type="application/javascript">
+        var map;
+        var geocoder;
+        var currentPosition;
+
+        var centeredMap = false;
+
+        function initMap() {
+
+          map = new google.maps.Map(document.getElementById('map'), {center : {lat: 47.3216689, lng: 5.030493}, zoom:11});
+          //var trafficLayer = new google.maps.TrafficLayer();
+          //trafficLayer.setMap(map);
+
+          var bounds = new google.maps.LatLngBounds();
+
+          var addressList = [];
+          var locationList = [];
+          var count = 0;
+
+          geocoder = new google.maps.Geocoder();
+
+          /*$("tr.address").each( function() {
+            addressList[count] = this.dataset.info;
+
+            geocoder.geocode (
+                    {address : addressList[count]},
+                    function(result,status) {
+                      if (status == google.maps.GeocoderStatus.OK) {
+                        map.setCenter(result[0].geometry.location);
+                        var marker = new google.maps.Marker({map: map, position: result[0].geometry.location});
+                        locationList[count] = result[0].geometry.location;
+                        bounds.extend(locationList[count]);
+                      } else {
+                        console.log("Geocode(init) was not successful for the following reason: " + status);
+                      }
+                    }
+            );
+            count++;
+          });
+          map.fitBounds(bounds);*/
+
+          var icon = {
+            url: "http://midounet.free.fr/ic_local_shipping_black_24px.svg",
+            scaledSize: new google.maps.Size(40,55)
+          };
+
+          $.get("positions/1", function (data) {
+            currentPosition ={lat: data.lat, lng: data.lng};
+          }).done( function () {
+            var shippingMarker = new google.maps.Marker({
+              position: currentPosition,
+              map: map,
+              icon: icon
+            });
+            moveMarker(map, shippingMarker);
+          });
+        }
+
+        function moveMarker (map, marker) {
+          var testID = setInterval( function () {
+            $.get("positions/1", function (data) {
+              //console.log("new coordinate for id #"+data.name+" : {lat:"+data.lat+",  lng: "+data.lng+"}");
+              marker.setPosition({lat: data.lat,lng: data.lng});
+              if (centeredMap==true) { map.panTo({lat: data.lat, lng: data.lng}); }
+            });
+          },41);
+        }
+
+        // Formule de Haversine pour calculer la distance entre deux points ( lat/lng )
+        var rad = function (x) {
+          return (x*Math.PI / 180);
+        }
+
+        function isNear( currentPosition, destinationLocation ) {
+
+          var R = 6378137; // Earth's mean radius meter
+          var dlat = rad(destinationLocation.lat-currentPosition.lat);
+          //console.log("dlat : " + dlat);
+          var dlng = rad(destinationLocation.lng-currentPosition.lng);
+          var a = Math.sin(dlat/2)*Math.sin(dlat/2) + Math.cos(rad(currentPosition.lat))*Math.cos(rad(destinationLocation.lat))*Math.sin(dlng/2)*Math.sin(dlng/2);
+          var c = 2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+          var distance = R*c;
+
+          //var currentPositionLatLng = new google.maps.LatLng(currentPosition.lat,currentPosition.lng);
+          //var destinationPositionLatLng = new google.maps.LatLng(destinationLocation.lat,destinationLocation.lng);
+          //var distance = google.maps.geometry.spherical.computeDistanceBetween(currentPositionLatLng,destinationPositionLatLng);
+
+          //console.log(distance);
+
+          if (distance<10000) {
+            return true;
+          }
+          return false;
+        }
+
+        $(function() {
+
+          initMap();
+
+          var strUser = "@user";
+          if (strUser.localeCompare("")) {
+            var referrer = document.referrer.substr(document.referrer.lastIndexOf("/")+1);
+            if (referrer=="login") {
+              Materialize.toast('@user @Messages("toast.isConnected")',4000,'',function() {});
+            }
+          } else {
+            Materialize.toast('@Messages("toast.noOne") @Messages("toast.isConnected")',4000,'',function() {});
+          }
+
+          $('input[name=centeredMap]').click ( function () {
+            centeredMap = !centeredMap;
+          });
+
+          $('tr.address').click(function() {
+            var address = this.dataset.info;
+            geocoder.geocode (
+                    {address : address },
+                    function(result,status) {
+                      if (status == google.maps.GeocoderStatus.OK) {
+                        map.setCenter(result[0].geometry.location);
+                        var marker = new google.maps.Marker({map: map, position: result[0].geometry.location});
+                        map.panTo(result[0].geometry.location);
+                      } else {
+                        console.log("Geocode(click) was not successful for the following reason: " + status);
+                      }
+                    }
+            )
+          })
+          $('#map').pushpin({ bottom: $('.container').offset().bottom });
+        })
+</script>

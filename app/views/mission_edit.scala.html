@@ -1,0 +1,79 @@
+@( user: String, title: String, missionForm: Form[Mission] )
+@import ui._
+
+@footerMenuEnabled = @{
+  false
+}
+
+@lockScreen = @{
+  false
+}
+
+@content = {
+  <div class="row">
+    @helper.form(action = routes.MissionController.saveMission(), 'class -> "col s12" ) {
+      <div class="row">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title black-text darken-4"><i class="material-icons">assignment</i> @Messages("mission.edit.summary")</span>
+            <p>
+              @forms.text( missionForm("id"),label = "id", size=2, "disabled")
+              @forms.text( missionForm("destination"), label = Messages("mission.edit.destination"), size=10, "disabled")
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title black-text darken-4"><i class="material-icons">contact_phone</i> @Messages("mission.edit.poc")</span>
+            <p>
+            @forms.text( missionForm("poc.name"), label = Messages("mission.edit.poc.name"), size=4, "")
+            @forms.text( missionForm("poc.location.phone"), label = Messages("mission.edit.poc.phone"), size=4, "")
+            @forms.text( missionForm("poc.location.cellphone"), label = Messages("mission.edit.poc.cellphone"), size=4, "")
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title black-text darken-4"><i class="material-icons">toc</i> @Messages("mission.edit.mission_list")</span>
+            @helper.repeat(missionForm("actions"), min = 1) { currentAction =>
+              <p id="action_@currentAction("id").value">
+                @forms.text(currentAction("id"), label= Messages("mission.id"), size=1, "")
+                @forms.text(missionForm("location.address"), label= Messages("mission.address"), size=3, "")
+                @forms.text(missionForm("location.zipCode"), label= Messages("mission.zipCode"), size=1, "")
+                @forms.text(missionForm("location.city"), label= Messages("mission.city"), size=2, "")
+
+              <div class="input-field col s2">
+                <select id="@currentAction("sort").id" name="@currentAction("sort").name">
+                  <option value="1" @if(currentAction("sort").value==1){ selected }>@Messages("mission.type.delivery")</option>
+                  <option value="2" @if(currentAction("sort").value==2){ selected }>@Messages("mission.type.collect")</option>
+                </select>
+                <label for="@currentAction("sort").id">@Messages("mission.type")</label>
+              </div>
+
+                @forms.text(currentAction("unity"), label= Messages("mission.quantity"), size=1, "")
+                @forms.time(currentAction("deadline"), label= Messages("mission.deadline"), size=2, "")
+              </p>
+            }
+            <button id="addMissionAction" class="btn waves-effect waves-light grey" type="button" name="action">@Messages("button.add")
+              <i class="material-icons right">add</i>
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col offset-s9 s3">
+            <button class="btn waves-effect waves-light blue" type="submit" name="action">
+              @Messages("button.save") <i class="material-icons right">done</i>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+}
+
+@tags.missions.html(user, title, footerMenuEnabled, lockScreen )(content)()

@@ -1,0 +1,100 @@
+[
+  {
+    "id":0,
+    "societyName":"Société Nom Test",
+    "login":"midwife",
+    "password":"123",
+    "email":"midwife123@gmail.com",
+    "location":
+      {
+        "id":0,
+        "address":"27 Rue Chanzy",
+        "addressComplement":"",
+        "zipCode":"21000",
+        "city":"DIJON",
+        "cellphone":null,
+        "phone":null,
+        "email":null,
+        "lat":0.0,
+        "lng":0.0
+      },
+    "poc":
+      {
+        "id":0,
+        "name":"CLERC Sébastien",
+        "location":
+          {
+            "id":0,
+            "address":"7 Rue du Couvent",
+            "addressComplement":"",
+            "zipCode":"25390",
+            "city":"ORCHAMPS VENNES",
+            "cellphone":"0645718736",
+            "phone":"0380701733",
+            "email":null,
+            "lat":0.0,
+            "lng":0.0
+          }
+      },
+    "siret":"580000000",
+    "position":null,
+    "activationDate":null,
+    "desactivationDate":null,
+    "billingInformation":null,
+    "active":false
+  },
+  {
+    "id":1,
+    "societyName":"societyNameTest",
+    "login":"loginTest",
+    "password":"passwordTest",
+    "email":"AccountEmail@mail.com",
+    "location":
+      {
+        "id":100,
+        "address":"27 Rue Chanzy",
+        "addressComplement":"Bat le Robinson",
+        "zipCode":"21000",
+        "city":"Dijon",
+        "cellphone":"+33 645718736",
+        "phone":"+33 380701733",
+        "email":"location eMail",
+        "lat":47.3348411,
+        "lng":5.0466419
+      },
+    "poc":
+      {
+        "id":255,
+        "name":"POCName éà&",
+        "location":
+          {
+            "id":100,
+            "address":"27 Rue Chanzy",
+            "addressComplement":"Bat le Robinson",
+            "zipCode":"21000",
+            "city":"Dijon",
+            "cellphone":"+33 645718736",
+            "phone":"+33 380701733",
+            "email":"location eMail",
+            "lat":47.3348411,
+            "lng":5.0466419
+          }
+      },
+    "siret":"5800000000000000",
+    "position":
+      {
+        "latitude":47.3139936,
+        "longitude":5.0759546,
+        "name":"AccountPosition"
+      },
+    "activationDate":1478107240339,
+    "desactivationDate":null,
+    "billingInformation":
+      {
+        "id":110,
+        "created_at":1478107240339,
+        "updated_at":1478107240339
+      },
+    "active":true
+  }
+]

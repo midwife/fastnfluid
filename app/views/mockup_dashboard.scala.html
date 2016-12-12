@@ -1,0 +1,354 @@
+@( user: String)
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Mockup</title>
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/mockup.css")">
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+    header {
+    background-color: #0088c9;
+    }
+
+    header nav {
+    background-color: inherit;
+    box-shadow: none;
+    }
+
+    .btn, .btn-large {
+    background-color: #00AFF0;
+    }
+
+    .btn:hover, .btn-large:hover {
+    background-color: #0088c9;
+    }
+
+    input[type="text"]:focus:not([readonly]), input[type="password"]:focus:not([readonly]), input[type="email"]:focus:not([readonly]), input[type="url"]:focus:not([readonly]), input[type="time"]:focus:not([readonly]), input[type="date"]:focus:not([readonly]), input[type="datetime-local"]:focus:not([readonly]), input[type="tel"]:focus:not([readonly]), input[type="number"]:focus:not([readonly]), input[type="search"]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #0088c9;
+    box-shadow: 0 1px 0 0 #0088c9;
+    }
+
+    footer.page-footer .footer-copyright {
+    background-color: #333333;
+    color: rgba(255, 255, 255, 0.8);
+    }
+
+    footer.page-footer {
+    background-color: #999;
+    margin-top: 20px;
+    padding-top: 20px;
+    }
+    </style>
+  </head>
+  <body>
+
+    <div class="content">
+      <div class="missions">
+        <span class="login">@user connected</span>
+        <ul class="collapsible-new">
+        </ul>
+      </div>
+
+      <div class="map" id="map"></div>
+
+      <div class="livefeed">
+        <div class="input-field">
+          <i class="material-icons prefix">search</i>
+          <input type="text" id="search_livefeed" placeholder="search live feed">
+        </div>
+        <div id="livefeed_body">
+        </div>
+      </div>
+      <div class="dialogbox">
+        <i class="material-icons">tap_and_play</i>
+
+        <div class="dbox-chat">
+          <div>&gt; <a href="#">#tournée 1</a> this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+          <div>&gt; this is a test</div>
+        </div>
+
+        <div class="dbox-items row">
+          <div class="input-field col m2">
+            <select id="dbselect" class="dbox-items">
+            </select>
+          </div>
+          <div class="input-field col m6">
+            <textarea id="dialog-area" class="materialize-textarea" rows="1"></textarea>
+            <label for="dialog-area">message to send</label>
+          </div>
+          <div class="m4">
+            <button class="waves-effect waves-light btn">Send</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="fixed-action-btn click-to-toggle" style="bottom: 45px; left: 24px;">
+        <a class="btn-floating btn-large red">
+          <i class="large mdi-navigation-menu"></i>
+        </a>
+        <ul>
+          <li><a class="btn-floating red" href="/logout"><i class="material-icons">exit_to_app</i></a></li>
+          <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+          <li><a class="btn-floating green"><i class="material-icons">assignment</i></a></li>
+          <li><a class="btn-floating blue" onclick="pollMissions();"><i class="material-icons">update</i></a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+    <script async defer src="http://maps.googleapis.com/maps/api/js?AIzaSyAsAzOBFyF1-580nuCwp65ZVhRvLE-U_mU&libraries=geometry&callback=initMap"></script>
+
+    <script type="application/javascript">
+    var Route = function(id, name, origin, destination, waypoints) {
+      this.name = name;
+      this.id = id;
+      this.origin = origin;
+      this.destination = destination;
+      this.waypoints = waypoints;
+    }
+
+    var map;
+
+    var preserveViewport = false;
+
+    var routes= [];
+    var muteArray = [];
+    var soloArray = [];
+    var renderers = {};
+
+    var directionServices= {};
+
+    function initMap() {
+      $.get("/mission").done(function (data) {
+
+        data.forEach( function (element, index, array ) {
+          console.log("parsing element #"+element.id);
+          routes[element.id] = new Route(element.id,element.name,element.origin, element.destination, element.waypoints);
+          directionServices[element.id] = new google.maps.DirectionsService();
+        });
+
+        var tempStr = "";
+        routes.forEach( function(element,index,array) {
+          renderers[element.id] = new google.maps.DirectionsRenderer();
+          DrawRoute(directionServices[element.id], renderers[element.id], routes[element.id], "blue", true);
+          tempStr += "<option value=\""+element.id+"\">"+element.name+"</option>\n";
+        });
+
+        pollMissions();
+
+        $("#dbselect").append(tempStr);
+        $('select').material_select();
+
+        preserveViewport = true;
+      });
+
+      map = new google.maps.Map(document.getElementById("map"), {center : {lat: 47.3216689, lng: 5.030493}, zoom:8, zoomControl: true, disableDefaultUI: true, scaleControl: false});
+    }
+
+    function pollLiveFeed() {
+      var dummyStr = $("#search_livefeed").val();
+      $.get("/livefeed/"+dummyStr, function(data) {
+        $("#livefeed_body").html(data);
+      });
+    }
+
+    function bindMissionMenu () {
+      $(".collapsible-header").bind("click", function() {
+        $(this).next(".collapsible-body").slideToggle(500);
+      });
+
+      $(".activate").bind("click", function ( event ) {
+        event.stopImmediatePropagation();
+        $(this).toggleClass("md-inactive");
+
+        var id= $(this).attr('id');
+        var action = id.substring(0,4);
+        var mission_id = id.substring(4);
+        var consoleStr = "";
+
+        switch (action) {
+          case "solo":
+            if ($(this).hasClass("md-inactive")) {
+              deMute(soloArray,mission_id);
+            } else {
+              mute(soloArray,mission_id);
+            }
+            consoleStr = "action: solo #"+mission_id;
+            break;
+          case "hide":
+            if ($(this).hasClass("md-inactive")) {
+              deMute(muteArray,mission_id);
+            } else {
+              mute(muteArray,mission_id);
+            }
+            consoleStr = "action: hide #"+mission_id;
+            break;
+          default:
+            consoleStr = "unknown action";
+        }
+        DrawRoutes(directionServices, renderers ,routes, soloArray, muteArray, "blue");
+      })
+    }
+
+    function pollMissions() {
+      var html = "";
+
+      $.get("/mission", function (json) {
+
+        json.forEach( function (element, index, array) {
+          html += "<li>";
+          html += "<div class=\"collapsible-header\"><i id=\"hide"+element.id+"\" class=\"material-icons md-18 md-inactive activate\">visibility_off</i><i id=\"solo"+element.id+"\" class=\"material-icons md-18 md-inactive activate\">my_location</i>";
+          html += "<span class=\"mission-title\">"+element.name+"</span><span class=\"mission-status\"> en cours : Carrefour</span><span class=\"badge error\">error</span></div>";
+          html += "<div class=\"collapsible-body\">";
+
+          element.waypoints.forEach( function (waypoint, index, array) {
+            //html += "<div class=\"heightmax timeline-error\"><div class=\"timeline-timer red-text\">--:--</div>";
+            html += "<div class=\"heightmax\"><div class=\"timeline-timer\">--:--</div>";
+            html += "<div class=\"timeline-body\"><div class=\"address-base\">"+waypoint.address+"</div>";
+            html += "<div class=\"address-city\">"+waypoint.zipCode+" "+waypoint.city+"</div>";
+            html += "</div></div>";
+          });
+          html += "</div></li>";
+        });
+
+        console.log(html);
+
+        $("ul.collapsible-new").html(html);
+        bindMissionMenu();
+      });
+    }
+
+    function DrawDirection (service, renderer, origin, destination, waypoints, color, drawWaypoints ) {
+      var waypts = [];
+      waypoints.forEach( function (element, index, array) {
+        waypts.push({
+          location: element,
+          stopover: true
+        });
+      });
+
+      var request = {
+        origin: origin,
+        destination: destination,
+        travelMode: google.maps.TravelMode.DRIVING,
+        waypoints: waypts,
+        optimizeWaypoints: true
+      };
+
+      var tempsStr = "@routes.Assets.at("images/ic_arrow_drop_down_black_24px.svg")";
+
+      if (drawWaypoints==true) {
+        tempsStr = "@routes.Assets.at("images/ic_place_black_24px.svg")";
+      }
+
+      renderer.setOptions({
+        polylineOptions: {strokeColor: color, strokeOpacity: 0.5},
+        preserveViewport: preserveViewport,
+        markerOptions: {icon: tempsStr}
+      });
+
+      service.route(request, function(response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+          renderer.setDirections(response);
+        } else {
+          console.error("google map route error"+google.maps.DirectionsStatus);
+        }
+      });
+      renderer.setMap(map);
+    }
+
+    function DrawRoute (service, renderer, route, color, drawWaypoints) {
+      DrawDirection(service, renderer, route.origin, route.destination, route.waypoints, color, drawWaypoints);
+    }
+
+    function DrawRoutes ( services, renderers, routes, soloArray, muteArray, color ) {
+      if (soloArray.length>0) {
+        //console.log("in soloLoop "+soloArray);
+        routes.forEach( function(element, index, array) {
+          var tempStr;
+          if (soloArray.indexOf(""+element.id)<0) {
+            tempStr = "grey";
+            DrawRoute(services[element.id],renderers[element.id], routes[element.id], tempStr, false);
+          } else {
+            tempStr = color;
+            DrawRoute(services[element.id],renderers[element.id], routes[element.id], tempStr, true);
+          }
+
+        });
+      } else {
+        //console.log("in muteLoop");
+        if (muteArray.length==0) {
+          routes.forEach( function(element, index, array) {
+            DrawRoute(services[element.id], renderers[element.id], routes[element.id], color, true);
+          });
+        } else {
+          routes.forEach( function(element, index, array) {
+            var tempStr;
+            if (muteArray.indexOf(""+element.id)<0) {
+              tempStr = color;
+              DrawRoute(services[element.id], renderers[element.id], routes[element.id], tempStr, true);
+            } else {
+              tempStr = "grey";
+              DrawRoute(services[element.id], renderers[element.id], routes[element.id], tempStr, false);
+            }
+          });
+        }
+      }
+    }
+
+    function deMute ( indexArray, mission_id) {
+      if (indexArray.indexOf(mission_id) != -1) {
+        var index = indexArray.indexOf(mission_id);
+        indexArray.splice(index,1);
+      }
+    }
+
+    function mute ( indexArray, mission_id) {
+      indexArray.push(mission_id);
+    }
+
+    $(function() {
+      //setInterval(pollLiveFeed,1000);
+      //setInterval(pollMissions,10000);
+
+      $("#search_livefeed").keyup(function () {
+        pollLiveFeed();
+      });
+    })
+  </script>
+  </body>
+</html>

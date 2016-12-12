@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mission editor</title>
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/editor.css")">
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/dropzone.css")">
+
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+    header {
+    background-color: #0088c9;
+    }
+
+    header nav {
+    background-color: inherit;
+    box-shadow: none;
+    }
+
+    .btn, .btn-large {
+    background-color: #00AFF0;
+    }
+
+    .btn:hover, .btn-large:hover {
+    background-color: #0088c9;
+    }
+
+    input[type="text"]:focus:not([readonly]), input[type="password"]:focus:not([readonly]), input[type="email"]:focus:not([readonly]), input[type="url"]:focus:not([readonly]), input[type="time"]:focus:not([readonly]), input[type="date"]:focus:not([readonly]), input[type="datetime-local"]:focus:not([readonly]), input[type="tel"]:focus:not([readonly]), input[type="number"]:focus:not([readonly]), input[type="search"]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #0088c9;
+    box-shadow: 0 1px 0 0 #0088c9;
+    }
+
+    footer.page-footer .footer-copyright {
+    background-color: #333333;
+    color: rgba(255, 255, 255, 0.8);
+    }
+
+    footer.page-footer {
+    background-color: #999;
+    margin-top: 20px;
+    padding-top: 20px;
+    }
+    </style>
+</head>
+<body>
+    <form action="#">
+        <div class="file-field input-field">
+            <div class="btn">
+                <span>File</span>
+                <input name="missionFile" type="file">
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path validate" type="text">
+            </div>
+        </div>
+    </form>
+
+    <form action="editor/upload" class="dropzone">
+        <div class="fallback">
+            drop here to upload!
+        </div>
+    </form>
+
+    <div class="progress">
+        <div class="determinate" style="width: 0%"></div>
+    </div>
+    <div class="progressText">
+
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+    <script src="@routes.Assets.at("javascripts/dropzone.js")"></script>
+
+    <script type="application/javascript">
+        var files;
+
+        // Add events
+        $('input[type=file]').on('change', prepareUpload);
+
+        // Grab the files and set them to our variable
+        function prepareUpload(event)
+        {
+            files = event.target.files;
+            console.log(files+" file prepared to be updated");
+            uploadFile(event)
+        }
+
+        function uploadFile (event) {
+            event.stopPropagation(); // Stop stuff happening
+            event.preventDefault(); // Totally stop stuff happening
+
+            // START A LOADING SPINNER HERE
+
+            console.log("preparing")
+            // saveUser a formdata object and add the files
+            var data = new FormData();
+            $.each(files, function(key, value)
+            {
+                console.log(key+":"+value);
+                data.append(key, value);
+            });
+
+            console.log("ok!\nsending via AJAX");
+
+            $.ajax({
+                url: 'editor/upload',
+                type: 'POST',
+                data: data,
+                cache: false,
+                processData: false, // Don't process the files
+                contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+                success: function(data, textStatus, jqXHR)
+                {
+                    if(typeof data.error === 'undefined')
+                    {
+                        // Success so call function to process the form
+                        console.info("success");
+                    }
+                    else
+                    {
+                        // Handle errors here
+                        console.log('ERRORS: ' + data.error);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown)
+                {
+                    // Handle errors here
+                    console.log('ERRORS: ' + textStatus);
+                    // STOP LOADING SPINNER
+                }
+            });
+        }
+        $('form').on('submit', uploadFile);
+    </script>
+</body>
+</html>

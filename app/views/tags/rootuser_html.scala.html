@@ -1,0 +1,37 @@
+@(user: String, title: String, footerMenuEnabled : Boolean = true, lockScreen : Boolean = false, userId: Int = 0, accountId: Int, societyId: Int = 0)(content: Html)(scripts: Html = Html(""))
+<!DOCTYPE html>
+<html lang="en">
+  @tags.header(title)
+<body>
+  <header>
+    <div class="container">
+    @ui.navbar(user, lockScreen, "root_user", userId, accountId, societyId)
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+    @content
+    </div>
+  </main>
+
+  <footer @if(footerMenuEnabled) {class="page-footer"}>
+    <div class="container">
+    @if(footerMenuEnabled) {
+      @ui.footer()
+    }
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      @ui.copyright()
+      </div>
+    </div>
+  </footer>
+
+</body>
+<script src="@routes.Assets.at("javascripts/jquery-3.1.1.min.js")"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+<script src="@routes.Assets.at("javascripts/intercooler-1.0.3.min.js")"></script>
+  @tags.script(user)
+  @scripts
+</html>

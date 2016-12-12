@@ -1,0 +1,35 @@
+@(user: String, title: String, footerMenuEnabled : Boolean = true, lockScreen : Boolean = false)(content: Html)(scripts: Html = Html(""))
+
+<!DOCTYPE html>
+<html lang="en">
+    @tags.header(title)
+    <body>
+        <header>
+            <div class="container">
+                @ui.navbar(user, lockScreen)
+            </div>
+        </header>
+
+        <main>
+            <div class="container">
+            @content 
+            </div>       
+        </main>
+
+        <footer @if(footerMenuEnabled) {class="page-footer"}>
+          <div class="container">
+            @if(footerMenuEnabled) {
+                @ui.footer()
+            }
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+                @ui.copyright()
+            </div>
+          </div>
+        </footer>
+
+    </body>
+    @tags.dashboard.script(user)
+    @scripts
+</html>

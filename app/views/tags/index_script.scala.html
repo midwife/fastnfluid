@@ -1,0 +1,21 @@
+@(user: String)
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+<script type="application/javascript">
+  $(function() {
+    var strUser = "@user";
+    //Materialize.toast("Message Test",4000,"", function() {});
+
+    if (strUser.localeCompare("")) {
+      var referrer = document.referrer.substr(document.referrer.lastIndexOf("/")+1);
+      if (referrer=="login") {
+        Materialize.toast('@user @Messages("toast.isConnected")',4000,'',function() {});
+      } else {
+        //Materialize.toast('@user @Messages("toast.isConnected")',4000,'',function() {});
+      }
+    } else {
+      Materialize.toast('@Messages("toast.noOne") @Messages("toast.isConnected")',4000,'',function() {});
+    }
+  })
+</script>

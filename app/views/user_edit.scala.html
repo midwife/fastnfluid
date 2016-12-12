@@ -1,0 +1,38 @@
+@( user: String, title: String, userForm: Form[UserAccount] )
+
+@import ui._
+
+@footerMenuEnabled = @{
+  false
+}
+
+@lockScreen = @{
+  true
+}
+
+@content = {
+  @helper.form(action = routes.UserController.save() ) {
+    <div class="row">
+      <div class="col m12">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">@Messages("user.editorTitle")</span>
+            <p>
+              <div class="row">
+                @forms.text( userForm("username"), label = Messages("login.username"), size=12, "")
+                @forms.password( userForm("password"), label = Messages("login.password"), size=12, "")
+              </div>
+            </p>
+          </div>
+          <div class="card-action">
+            <button class="btn waves-effect waves-light" type="submit" name="action">@Messages("button.save")
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+}
+
+@tags.html(user, title, footerMenuEnabled, lockScreen )(content)()

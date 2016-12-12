@@ -1,0 +1,10 @@
+@(field: Field, label: String = "", size: Integer, disabled: String = "", icon: String)
+@if(size==0) {
+  <div class="input-field">
+  }else{
+  <div class="input-field col s@size">
+  }
+  <i class="material-icons prefix">@icon</i>
+  <input @disabled value="@field.value.getOrElse("")" name="@field.name" id="@field.id" type="text">
+  <label @if(field.value.getOrElse("")!="") { class="active" } for="@field.id">@label</label>
+</div>

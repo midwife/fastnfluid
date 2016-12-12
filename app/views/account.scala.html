@@ -1,0 +1,74 @@
+@( user: String, title: String, accountForm: Form[Account], userType: String = "" )
+
+@import ui._
+
+@footerMenuEnabled = @{
+  false
+}
+
+@lockScreen = @{
+  false
+}
+
+@content = {
+  @helper.form(action = routes.UI_AccountController.CreateAccount() ) {
+    <div class="row">
+      <div class="col m12">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">@Messages("account.editor")</span>
+            <p>
+              <input type="hidden" name="id" id="id" value="@user">
+              <fieldset>
+                <legend>@Messages("account.contact.information")</legend>
+                <div class="row">
+                  @forms.text_pre_icon( accountForm("societyName"), label = Messages("account.societyName"), size=12, "","folder_shared")
+                  @forms.text_pre_icon( accountForm("login"), label = Messages("account.login"), size=6, "", "account_box")
+                  @forms.password( accountForm("password"), label = Messages("login.password"), size=6, "")
+                  @forms.text_pre_icon( accountForm("email"), label = Messages("account.mail"), size=6, "", "contact_mail")
+                </div>
+                <div class="row">
+                  @forms.text( accountForm("location")("address"), label = Messages("address"), size=12, "")
+                  @forms.text( accountForm("location")("addressComplement"), label = Messages("addressComplement"), size=12, "")
+                  @forms.text( accountForm("location")("zipCode"), label = Messages("zipCode"), size=6, "")
+                  @forms.text( accountForm("location")("city"), label = Messages("city"), size=6, "")
+                  @forms.text( accountForm("siret"), label = "SIRET", size=6, "")
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>@Messages("mission.edit.poc")</legend>
+                <div class="row">
+                  @forms.text( accountForm("poc")("name"), label = Messages("mission.edit.poc.name"), size=12, "")
+                  @forms.text( accountForm("poc")("location")("address"), label = Messages("address"), size=12, "")
+                  @forms.text( accountForm("poc")("location")("addressComplement"), label = Messages("addressComplement"), size=12, "")
+                  @forms.text( accountForm("poc")("location")("zipCode"), label = Messages("zipCode"), size=6, "")
+                  @forms.text( accountForm("poc")("location")("city"), label = Messages("city"), size=6, "")
+                  @forms.text( accountForm("poc")("location")("phone"), label = Messages("mission.edit.poc.phone"), size=6, "")
+                  @forms.text( accountForm("poc")("location")("cellphone"), label = Messages("mission.edit.poc.cellphone"), size=6, "")
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>@Messages("billing.information")</legend>
+                <i class="material-icons">access_alarm</i> à venir
+              </fieldset>
+            </p>
+          </div>
+          <div class="card-action">
+            <button class="btn waves-effect waves-light" type="submit" name="action">@Messages("button.save")
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+}
+
+@scripts = {
+  <script type="application/javascript">
+          $(function() {
+            Materialize.updateTextFields();
+          });
+  </script>
+}
+@tags.html(user, title, footerMenuEnabled, lockScreen, userType )(content)(scripts)

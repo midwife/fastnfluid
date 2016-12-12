@@ -1,0 +1,73 @@
+toast.isConnected=est connecté
+toast.noOne=Personne n''
+
+navbar.logout=Se déconnecter
+navbar.list_missions=Liste des missions
+navbar.list_cellphones=Liste des téléphones
+navbar.users=Utilisateurs
+navbar.account=Compte
+
+login.login=Identification
+login.username=Utilisateur
+login.password=Mot de passe
+login.connect=se connecter
+login.passwordLost=mot de passe perdu
+login.createUser=Création d''un compte
+
+tour.name=Nom de la tournée
+tour.creator=Créateur de tournée
+
+mission.edit_mission=Editer
+mission.edit.summary=Résumé de la Mission
+mission.edit.destination=Destination
+mission.edit.poc=Personne de contact
+mission.edit.poc.name=Nom
+mission.edit.poc.phone=Numéro de téléphone
+mission.edit.poc.cellphone=Portable
+mission.edit.mission_list=Liste des missions
+
+mission.address=Adresse
+mission.id=id
+mission.zipCode=Code Postal
+mission.city=Ville
+
+mission.type=Type
+mission.type.collect=Collecte
+mission.type.delivery=Livraison
+mission.deadline=Limite horaire
+mission.quantity=Unités
+
+button.save=Enregistrer
+button.add=Ajouter
+button.delete=Effacer
+button.addAMission=Ajouter une Mission
+
+missionToDeliver=Liste des adresses à livrer
+address=Adresse
+addressComplement=Adresse Complémentaire
+mission_id=Ordre/Mission
+zipCode=Code Postal
+city=Ville
+autoCenterMap=carte centrée sur le véhicule
+
+user=Utilisateur
+user.editorTitle=Editeur de compte utilisateur
+user.superuser=Administrateur
+user.rootuser=Administrateur Principal
+user.adduser=Ajouter un utilisateur
+user.list=Liste des utilisateurs
+user.profile=Profil
+
+cellphone.pending=En attente
+cellphone.list=Liste des téléphones
+
+account.editor=Compte
+account.societyName=Nom de la société
+account.login=identifiant
+account.mail=Courriel
+account.contact.information=Identifiants
+
+billing.information=Informations de facturation
+
+society=Société
+settings=Paramètres

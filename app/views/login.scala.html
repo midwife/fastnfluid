@@ -1,0 +1,50 @@
+@(title: String, userForm: Form[UserAccount])
+
+@import ui._
+
+@footerMenuEnabled = @{
+  false
+}
+
+@lockScreen = @{
+    true
+}
+
+@user = @{""}
+
+@content = {
+    <!--<form method="post" action=""> -->
+    @helper.form(action = routes.LoginController.authenticate(), 'id -> "userForm" ) {
+      <div class="card" style="margin:auto;width:43%;margin-top:6%">
+        <div class="card-content" style="background-color: #00aff0 ;">
+          <span class="card-title">@Messages("login.login")</span>
+        </div>
+        <div class="card-content">
+          <div class="row">
+            @forms.text(userForm("username"), label = Messages("login.username"), size=0, "")
+            @forms.password(userForm("password"), label = Messages("login.password"), size=0, "")
+          </div>
+          <div class="row">
+            <div class="input-field right-align">
+              <button class="btn waves-effect waves-light" type="submit" name="action">@Messages("login.connect")
+                <i class="material-icons right">send</i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-action">
+          <!--<a href="">@Messages("login.passwordLost") ?</a> -->
+          <a href="@routes.UI_AccountController.CreateAccount()">@Messages("login.createUser")</a>
+        </div>
+      </div>
+  }
+  <!--</form>-->
+}
+
+@scripts = {
+  <script type="application/javascript">
+          Materialize.updateTextFields();
+  </script>
+}
+
+@tags.html(user , title, footerMenuEnabled, lockScreen)(content)(scripts)

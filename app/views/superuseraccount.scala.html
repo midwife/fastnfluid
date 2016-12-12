@@ -1,0 +1,84 @@
+@( user: String, title: String, userId: Int = 0, accountId: Int = 0, userForm: Form[UserAccount] )
+
+@import ui._
+
+@footerMenuEnabled = @{
+  false
+}
+
+@lockScreen = @{
+  false
+}
+
+@content = {
+@helper.form(action = routes.UI_UserAccountController.saveUser() ) {
+  <div class="row">
+    <div class="col m12">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">@Messages("account.editor") : @Messages("user.superuser")</span>
+          <a class="waves-effect waves-light btn right" href="#addUserModal">@Messages("user.adduser")</a>
+          <input type="hidden" name="id" id="id" value="@user">
+          <div class="card grey lighten-5">
+            <div class="card-content">
+              <span class="card-title">@Messages("account.contact.information")</span>
+              <div class="row">
+                @forms.text_pre_icon( userForm("username"), label = Messages("account.login"), size=6, "", "account_box")
+                @forms.password( userForm("password"), label = Messages("login.password"), size=6, "")
+              </div>
+            </div>
+          </div>
+          <div class="card grey lighten-5">
+            <div class="card-content">
+              <span class="card-title">@Messages("user.list")</span>
+              <div id="userList" ic-poll="1ms" ic-poll-repeats="1" ic-src="/account/userList/@accountId"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-action">
+          <button class="btn waves-effect waves-light" type="submit" name="action">@Messages("button.save")
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+    <!-- MODAL ADD USER -->
+  <div id="addUserModal" class="modal blue-grey lighten-5">
+    <div class="modal-content blue-grey lighten-5">
+      <div class="input-field s3">
+        <input value="" name="new_login" id="new_login" type="text">
+        <label for="new_login">@Messages("account.login")</label>
+      </div>
+      <div class="input-field s3">
+        <input value="" name="new_pwd" id="new_pwd" type="text">
+        <label for="new_pwd">@Messages("login.password")</label>
+      </div>
+      <div class="input-field s3">
+        <select id="new_profile" name="new_profile">
+          <option value="10">@Messages("user")</option>
+          <option value="2">@Messages("user.superuser")</option>
+          <option value="0">@Messages("user.rootuser")</option>
+        </select>
+        <label>@Messages("user.profile")</label>
+      </div>
+    </div>
+    <div class="modal-footer blue-grey lighten-5">
+      <div class="input-field s3 center-align">
+        <a href="#" class="modal-action modal-close btn waves-effect waves-light" name="action" id="action">@Messages("button.add")</a>
+      </div>
+    </div>
+  </div>
+}
+
+@scripts = {
+  <script type="application/javascript">
+    $(function() {
+      $('.modal').modal();
+      Materialize.updateTextFields();
+    });
+  </script>
+}
+
+@tags.superuser_html(user, title, footerMenuEnabled, lockScreen,userId , accountId )(content)(scripts)

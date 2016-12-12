@@ -1,0 +1,58 @@
+@( user: String, title: String, tourForm: Form[Tour] )
+
+@footerMenuEnabled = @{
+  false
+}
+
+@lockScreen = @{
+  false
+}
+
+@content = {
+  <h3>@Messages("tour.creator")</h3>
+  <form class="col s12">
+    <div class="row">
+      <div class="input-field col s4">
+        <input type="text" name="tourName" id="tourName">
+        <label for="tourName">@Messages("tour.name")</label>
+      </div>
+    </div>
+    <div class="mission-details">
+      <div class="row">
+        <div class="input-field col s1">
+          <input type="text" name="accountId" id="accountId">
+          <label for="accountId">Account Id</label>
+        </div>
+        <div class="input-field col s1">
+          <input type="text" name="id" id="id">
+          <label for="id">Mission Id</label>
+        </div>
+        <div class="input-field col s10">
+          <input type="text" name="missionName" id="missionName">
+          <label for="missionName">Mission Name</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s1">
+          <input type="text" name="sourceTypeId" id="sourceTypeId">
+          <label for="sourceTypeId">SrcTypId</label>
+        </div>
+        <div class="input-field col s1">
+          <input type="text" name="sourceId" id="sourceId">
+          <label for="sourceId">Source Id</label>
+        </div>
+        <div class="input-field col s1">
+          <input type="text" name="missionTypeId" id="missionTypeId">
+          <label for="missionTypeId">MsnTypId</label>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="row add">
+    <button class="btn waves-effect waves-light" name="addMission">@Messages("button.addAMission")
+      <i class="material-icons right">add</i>
+    </button>
+  </div>
+}
+
+@tags.missions.html(user, title, footerMenuEnabled, lockScreen )(content)()

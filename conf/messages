@@ -1,0 +1,74 @@
+toast.isConnected=is connected
+toast.noOne=no one
+
+navbar.logout=Logout
+navbar.list_missions=Missions list
+navbar.list_cellphones=Cellphones list
+navbar.users=Users
+navbar.account=Account
+
+login.login=Identification
+login.username=Username
+login.password=Password
+login.connect=Login
+login.passwordLost=Lost password
+login.createUser=Register now!
+
+tour.name=Tour Name
+tour.creator=Tour Creator
+
+mission.edit_mission=Edit
+mission.edit.summary=Mission''s summary
+mission.edit.destination=Destination
+mission.edit.poc=Person of contact
+mission.edit.poc.name=Name
+mission.edit.poc.phone=Phone number
+mission.edit.poc.cellphone=Cellphone
+mission.edit.mission_list=Missions List
+
+mission.address=Address
+mission.id=id
+mission.zipCode=ZipCode
+mission.city=city
+
+mission.type=Type
+mission.type.collect=Collect
+mission.type.delivery=Delivery
+mission.deadline=Deadline
+mission.quantity=Quantity
+
+button.save=Save
+button.add=Add
+button.delete=Delete
+
+button.addAMission=New mission
+
+missionToDeliver=Mission to deliver
+address=Address
+addressComplement=Address Complement
+mission_id=Mission id
+zipCode=ZipCode
+city=City
+autoCenterMap=Auto center map on truck
+
+user=User
+user.editorTitle=User account editor
+user.superuser=Administrator
+user.rootuser=Root Administrator
+user.adduser=Add User
+user.list=User(s) list
+user.profile=Profile
+
+cellphone.pending=Pending
+cellphone.list=Cellphones list
+
+account.editor=Account
+account.societyName=Society name
+account.login=login
+account.mail=eMail
+account.contact.information=Contact Information
+
+billing.information=Billing informations
+
+society=Society
+settings=Settings
