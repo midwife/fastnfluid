@@ -41,12 +41,12 @@ public class UserAccount {
     public void setId(int id) { this.id = id; }
 
     /*public static UserAccount getUser(int id) {
-        UserAccount user = new UserAccount(id);
-        user.setId(id);
-        user.setUsername("");
-        user.setPassword("");
-        user.setProfile(UserAccount.USER);
-        return user;
+        UserAccount user_account = new UserAccount(id);
+        user_account.setId(id);
+        user_account.setUsername("");
+        user_account.setPassword("");
+        user_account.setProfile(UserAccount.USER);
+        return user_account;
     }*/
 
     public int getProfile() {
@@ -92,7 +92,6 @@ public class UserAccount {
             case UserAccount.ADMIN_USER:
                 userType = "admin_user";
                 break;
-
         }
 
         return userType;
