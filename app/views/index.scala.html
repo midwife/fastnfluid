@@ -1,5 +1,4 @@
-@( user: String, title: String, userType: String )
-
+@( user: UserAccount, title: String)
 @footerMenuEnabled = @{
     false
 }
@@ -73,4 +72,4 @@
     </script>
 }
 
-@tags.phone_html(user, title, userType, footerMenuEnabled, lockScreen )(content)()
+@tags.index_html(user, title, footerMenuEnabled, lockScreen )(content)()

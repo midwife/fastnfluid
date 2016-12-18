@@ -1,11 +1,11 @@
-@(user: String, title: String, footerMenuEnabled : Boolean = true, lockScreen : Boolean = false, userType: String = "", userId: Int = 0)(content: Html)(scripts: Html = Html(""))
+@(user: UserAccount, title: String, footerMenuEnabled : Boolean = true, lockScreen : Boolean = false)(content: Html)(scripts: Html = Html(""))
 <!DOCTYPE html>
 <html lang="en">
     @tags.header(title)
     <body>
         <header>
             <div class="container">
-                @ui.navbar(user, lockScreen, userType, userId)
+                @ui.navbar(user, lockScreen)
             </div>
         </header>
 

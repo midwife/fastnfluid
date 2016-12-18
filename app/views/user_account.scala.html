@@ -1,0 +1,50 @@
+@( user: UserAccount, title: String, userForm: Form[UserAccount] )
+
+@import ui._
+
+@footerMenuEnabled = @{
+  false
+}
+
+@lockScreen = @{
+  false
+}
+
+@content = {
+  @helper.form(action = routes.UI_UserAccountController.saveUser() ) {
+    <div class="row">
+      <div class="col m12">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">@Messages("account.editor")</span>
+            <p>
+              <input type="hidden" name="id" id="id" value="@user">
+              <fieldset>
+                <legend>@Messages("account.contact.information")</legend>
+                <div class="row">
+                  @forms.text_pre_icon( userForm("username"), label = Messages("account.login"), size=6, "", "account_box")
+                  @forms.password( userForm("password"), label = Messages("login.password"), size=6, "")
+                </div>
+              </fieldset>
+            </p>
+          </div>
+          <div class="card-action">
+            <button class="btn waves-effect waves-light" type="submit" name="action">@Messages("button.save")
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+}
+
+@scripts = {
+  <script type="application/javascript">
+          $(function () {
+            Materialize.updateTextFields();
+          });
+  </script>
+}
+
+@tags.html(user, title, footerMenuEnabled, lockScreen)(content)(scripts)

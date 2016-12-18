@@ -1,4 +1,4 @@
-@( user: String, title: String, accountForm: Form[Account], userType: String = "" )
+@( user: UserAccount, title: String, accountForm: Form[Account] )
 
 @import ui._
 
@@ -71,4 +71,4 @@
           });
   </script>
 }
-@tags.html(user, title, footerMenuEnabled, lockScreen, userType )(content)(scripts)
+@tags.html(user, title, footerMenuEnabled, lockScreen )(content)(scripts)
