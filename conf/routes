@@ -10,9 +10,9 @@ GET     /logout                     controllers.LoginController.logout()
 
 GET     /positions/:id              controllers.DummyPositionController.getCurrentPositionJSON(id: Int)
 
-GET     /mission                    controllers.MockupDashboardController.getGeocodedData()
-GET     /mission/:id                controllers.MissionController.showMission( id: Int)
-POST    /mission                    controllers.MissionController.saveMission()
+#GET     /mission                    controllers.MockupDashboardController.getGeocodedData()
+#GET     /mission/:id                controllers.MissionController.showMission( id: Int)
+#POST    /mission                    controllers.MissionController.saveMission()
 
 GET     /livefeed/:wildcard         controllers.LiveFeedController.getLivefeedWithWildCard(wildcard: String )
 GET     /livefeed/                  controllers.LiveFeedController.getLivefeed()
@@ -21,13 +21,13 @@ GET     /mockup                     controllers.MockupDashboardController.mockup
 GET     /editor                     controllers.MissionEditorController.editor()
 POST    /editor/upload              controllers.MissionEditorController.getFile()
 
-GET     /mission_edit               controllers.MissionController.index()
+#GET     /mission_edit               controllers.MissionController.index()
 
 GET     /account/api/:id            controllers.API_AccountController.getAccountFromID(id: Int)
 GET     /user/api/:id               controllers.API_UserAccountController.getUserFromID(id: Int)
 
 GET     /user/api                   controllers.API_UserAccountController.getUserList()
-GET     /user/api/fromAccountId/:id controllers.API_UserAccountController.getUsersFromAccount(id: Int)
+GET     /user/api/fromAccountId/:userId controllers.API_UserAccountController.getUsersFromAccount(userId : Int)
 
 GET     /user/ui/:id                controllers.UI_UserAccountController.showUserAccount(id: Int)
 GET     /account/ui/:id             controllers.UI_AccountController.ShowAccount(id: Int)
