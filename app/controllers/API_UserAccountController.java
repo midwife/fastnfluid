@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import controllers.backend.UserAccountBE;
 import models.Account;
 import models.UserAccount;
+import org.h2.engine.User;
 import play.libs.Json;
 import play.mvc.Result;
 
@@ -26,11 +27,11 @@ public class API_UserAccountController {
     return UserAccountBE.SetFixture();
   }
 
-  public Result getUsersFromAccount (int accoundId) {
-    return ok(Json.toJson(UserAccountBE.getUsersFromAccount(accoundId)));
+  public Result getUsersFromAccount ( int userId) {
+    return ok(Json.toJson(UserAccountBE.getUsersFromAccount(userId)));
   }
 
-  public Result getUsersFromAccount( Account account ) {
-    return ok(Json.toJson(this.getUsersFromAccount(account.getId())));
+  public Result getUsersFromAccount(UserAccount user) {
+    return ok(Json.toJson(this.getUsersFromAccount(user.getId())));
   }
 }

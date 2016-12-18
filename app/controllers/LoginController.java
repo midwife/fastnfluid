@@ -31,7 +31,7 @@ public class LoginController extends Controller {
         Form<UserAccount> userForm = Form.form(UserAccount.class);
         userForm.fill(user);
 
-        //return ok(login.render(user.getUsername(), userForm));
+        //return ok(login.render(user_account.getUsername(), userForm));
 
         if (UserAccountBE.Exists(user)) {
             session("username",user.getUsername());

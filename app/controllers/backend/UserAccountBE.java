@@ -73,24 +73,36 @@ public class UserAccountBE {
     return null;
   }
 
-  public static ArrayList getUsersFromAccount (Account account) {
+  public static ArrayList getUsersFromAccount (UserAccount user) {
     ArrayList<UserAccount> listToReturn = new ArrayList<UserAccount>();
+    Account account = user.getClientAccount();
     if (UserAccountBE.users.size()!=0) {
       for ( int i = 0; i < UserAccountBE.users.size(); i++ ) {
-        if (UserAccountBE.users.get(i).getClientAccount().equals(account)) {
-          listToReturn.add(UserAccountBE.users.get(i));
+        if (UserAccountBE.users.get(i).getClientAccount().equals(account) && (UserAccountBE.users.get(i).getProfile()>=user.getProfile())) {
+          if (user.getProfile()==UserAccount.SUPER_USER) {
+            if (user.getSocietyId()==UserAccountBE.users.get(i).getSocietyId()) {
+              listToReturn.add(UserAccountBE.users.get(i));
+            }
+          } else {
+            listToReturn.add(UserAccountBE.users.get(i));
+          }
+
         }
       }
     }
     return listToReturn;
   }
 
-  public static ArrayList getUsersFromAccount ( int accountId ) {
-    return getUsersFromAccount(AccountBE.getAccount(accountId));
+  public static ArrayList getUsersFromAccount (int userId ) {
+    return getUsersFromAccount(UserAccountBE.getUser(userId));
+  }
+
+  public static ArrayList getAllUsers () {
+    return UserAccountBE.users;
   }
 
   public Result updateUser ( int id ) {
-    return ok("TODO: user update method");
+    return ok("TODO: user_account update method");
   }
 
   public static boolean Exists(UserAccount user ) {

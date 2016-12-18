@@ -45,29 +45,29 @@ public class UI_UserAccountController {
 
 
     if (user == null) {
-      return ok("TODO: user does not exit");
+      return ok("TODO: user_account does not exit");
     }
 
     switch (user.getProfile()) {
       case UserAccount.ROOT_USER:
       case UserAccount.ADMIN_USER:
-        return this.showRootUserAccount(user);
+        return this.showAdminUserAccount(user);
       case UserAccount.SUPER_USER:
         return this.showSuperUserAccount(user);
       case UserAccount.USER:
         Form<UserAccount> formUserAccount = formFactory.form(UserAccount.class);
         formUserAccount = formUserAccount.fill(user);
 
-        return ok(useraccount.render(this.actualUsername,"Utilisateur",user.getId(),formUserAccount));
+        return ok(user_account.render(user,"Utilisateur", formUserAccount));
       default:
         return ok();
     }
   }
 
-  public Result showRootUserAccount ( UserAccount root ) {
+  public Result showAdminUserAccount ( UserAccount user ) {
     Form<UserAccount> formUserAccount = formFactory.form(UserAccount.class);
-    formUserAccount = formUserAccount.fill(root);
-    return ok(rootuser.render(this.actualUsername,"Administrateur Principal", root.getId(), root.getClientAccountId(), formUserAccount ));
+    formUserAccount = formUserAccount.fill(user);
+    return ok(user_admin.render(user,"Administrateur Principal", formUserAccount ));
   }
 
   public Result showSuperUserAccount ( UserAccount user ) {
@@ -75,7 +75,7 @@ public class UI_UserAccountController {
     Form<UserAccount> formUserAccount = formFactory.form(UserAccount.class);
     formUserAccount = formUserAccount.fill(user);
 
-    return ok(superuseraccount.render(this.actualUsername,"Administrateur", user.getId(), user.getClientAccountId(), formUserAccount ));
+    return ok(user_super.render(user,"Administrateur", formUserAccount ));
   }
 
   public Result deleteUser(int id ) {
@@ -100,8 +100,8 @@ public class UI_UserAccountController {
 
   public Result saveUser() {
     System.out.println("got req : "+request().username());
-    return ok("TODO: user save/update method");
+    return ok("TODO: user_account save/update method");
   }
-  public Result createUser() { return ok("TODO: user create method");}
+  public Result createUser() { return ok("TODO: user_account create method");}
 
 }
