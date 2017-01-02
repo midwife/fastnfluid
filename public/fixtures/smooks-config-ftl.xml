@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+                      xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.3.xsd"
+                      xmlns:ftl="http://www.milyn.org/xsd/smooks/freemarker-1.1.xsd">
+
+    <core:filterSettings type="SAX" defaultSerialization="false" />
+
+    <resource-config selector="account, user">
+        <resource>org.milyn.delivery.DomModelCreator</resource>
+    </resource-config>
+
+    <ftl:freemarker applyOnElement="account">
+        <ftl:template>
+            <!--
+            <account>
+                <id>${account.id}</id>
+                <poc>${account.poc}</poc>
+                <user-list>
+                    <?TEMPLATE-SPLIT-PI?>
+                </user-list>
+            </account>
+            -->
+        </ftl:template>
+    </ftl:freemarker>
+    <ftl:freemarker applyOnElement="user">
+        <ftl:template>
+            <!--
+            <user>
+                <id>${user.id}</id>
+                <first_name>${user.firstName}</first_name>
+                <last_name>${user.lastName}</last_name>
+                <email>${user.email}</email>
+            </user>
+            -->
+        </ftl:template>
+    </ftl:freemarker>
+
+</smooks-resource-list>

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<account>
+    <id>0</id>
+    <poc>CLERC Sébastien</poc>
+    <user-list>
+        <user>
+            <id>1</id>
+            <first_name>Jennifer</first_name>
+            <last_name>Evans</last_name>
+            <email>jevans0@youtu.be</email>
+        </user>
+        <user>
+            <id>2</id>
+            <first_name>Ralph</first_name>
+            <last_name>Wagner</last_name>
+            <email>rwagner1@mozilla.com</email>
+        </user>
+        <user>
+            <id>3</id>
+            <first_name>Jean</first_name>
+            <last_name>Martin</last_name>
+            <email>jmartin2@arstechnica.com</email>
+        </user>
+        <user>
+            <id>4</id>
+            <first_name>Daniel</first_name>
+            <last_name>Martin</last_name>
+            <email>dmartin3@digg.com</email>
+        </user>
+    </user-list>
+</account>
